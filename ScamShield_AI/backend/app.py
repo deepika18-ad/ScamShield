@@ -1,3 +1,4 @@
+
 from pathlib import Path
 from urllib.parse import urlsplit
 import ipaddress
@@ -29,8 +30,10 @@ def inspect_url(value):
 
     if not raw:
         return {"error": "Please enter a website address."}
+
     if len(raw) > 2048:
         return {"error": "The URL is too long."}
+
     if re.search(r"\s", raw):
         return {"error": "The URL cannot contain spaces."}
 
@@ -48,8 +51,10 @@ def inspect_url(value):
 
     if parsed.scheme.lower() not in ("http", "https"):
         return {"error": "Use a URL beginning with HTTP or HTTPS."}
+
     if not hostname or "." not in hostname:
         return {"error": "Enter a complete domain, such as example.com."}
+
     if parsed.username is not None or parsed.password is not None:
         return {"error": "URLs containing embedded credentials are not allowed."}
 
@@ -57,17 +62,24 @@ def inspect_url(value):
     findings = []
     points = 0
 
+    def flag(message, weight):
+        nonlocal points
+        findings.append({"message": message, "points": weight})
+        points += weight
+
     if parsed.scheme.lower() == "http":
-        findings.append("Uses HTTP rather than encrypted HTTPS.")
-        points += 2
+        flag("Uses HTTP instead of encrypted HTTPS.", 15)
     else:
-        findings.append(
-            "Uses HTTPS. Encryption does not prove that a website is legitimate."
-        )
+        findings.append({
+            "message": (
+                "Uses HTTPS. Encryption does not prove that a website "
+                "is legitimate."
+            ),
+            "points": 0,
+        })
 
     if "xn--" in host:
-        findings.append("Contains an internationalized domain label.")
-        points += 2
+        flag("Contains an internationalized domain label that deserves review.", 20)
 
     try:
         ipaddress.ip_address(host)
@@ -76,72 +88,78 @@ def inspect_url(value):
         is_ip = False
 
     if is_ip:
-        findings.append("Uses an IP address instead of a conventional domain.")
-        points += 2
+        flag("Uses an IP address instead of a conventional domain.", 20)
 
     if not is_ip and len(host.split(".")) > 4:
-        findings.append("Contains many subdomain levels.")
-        points += 1
+        flag("Contains many subdomain levels.", 10)
 
     if len(host) > 45:
-        findings.append("Has an unusually long hostname.")
-        points += 1
+        flag("Has an unusually long hostname.", 10)
 
     if re.search(
         r"login|verify|secure|account|update|wallet|banking|payment",
         host,
         re.IGNORECASE,
     ):
-        findings.append("Contains security- or account-related words in the hostname.")
-        points += 1
+        flag(
+            "Contains account- or security-related words in the hostname.",
+            15,
+        )
 
     if re.search(
         r"login|verify|password|wallet|payment|account|signin|confirm",
         parsed.path + "?" + parsed.query,
         re.IGNORECASE,
     ):
-        findings.append("The URL path or query references account access or payment.")
-        points += 1
+        flag(
+            "The URL path or query references account access or payment.",
+            10,
+        )
 
     if len(candidate) > 120:
-        findings.append("The complete URL is unusually long.")
-        points += 1
+        flag("The complete URL is unusually long.", 10)
 
-    if points >= 4:
+    score = min(points, 100)
+
+    if score >= 60:
         level = "high"
-        title = "Multiple warning signals detected"
+        title = "High Risk Indicators"
         description = (
-            "This URL has several characteristics that deserve caution. "
-            "Verify it independently before sharing sensitive information."
+            "Several URL warning signals were detected. Treat this link "
+            "with caution and verify it independently."
         )
         advice = (
-            "Avoid signing in or making payments through this link. Visit the "
-            "organisation's independently verified official website."
+            "Avoid entering passwords, OTPs, or payment details. Visit the "
+            "organisation's verified website directly."
         )
-    elif points >= 2:
+    elif score >= 30:
         level = "warning"
-        title = "Use caution with this URL"
+        title = "Suspicious URL Indicators"
         description = (
-            "Some URL characteristics warrant a closer look. These signals "
-            "alone cannot establish whether a website is fraudulent."
+            "This URL has warning signals that need review. These checks "
+            "cannot confirm whether the website is fraudulent."
         )
         advice = (
-            "Check the exact domain. Never share passwords, OTPs, or payment "
-            "details with an unverified website."
+            "Check the exact domain and verify the sender before interacting "
+            "with the website."
         )
     else:
         level = "low"
-        title = "Few structural warnings detected"
+        title = "Few Structural Warnings"
         description = (
-            "The basic checks found few warning signals. This does not prove "
-            "that the website is safe or trustworthy."
+            "The basic checks found relatively few warning signals. "
+            "This does not establish that the website is safe."
         )
         advice = (
-            "Verify the domain independently. Phishing websites can also use HTTPS."
+            "Verify the domain independently. Phishing websites can also "
+            "use HTTPS."
         )
 
     if not findings:
-        findings.append("No basic URL warning signals were detected.")
+        findings.append({
+            "message": "No basic URL warning signals were detected.",
+            "points": 0,
+        })
 
     return {
         "level": level,
@@ -150,9 +168,11 @@ def inspect_url(value):
         "advice": advice,
         "findings": findings,
         "displayedURL": candidate,
-        "score": points,
+        "score": score,
+        "maxScore": 100,
         "disclaimer": (
-            "Rule-based prototype only; not a definitive phishing verdict."
+            "Rule-based prototype. This score reflects URL characteristics, "
+            "not a verified probability of phishing."
         ),
     }
 
