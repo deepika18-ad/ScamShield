@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050816">
+  <meta name="description" content="ScamShield AI helps users assess suspicious website URLs and understand online safety risks.">
+  <title>ScamShield AI | Think Before You Click</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <header class="navbar">
+    <a href="#" class="brand">
+      <div class="brand-icon">⬡</div>
+      <div>
+        <div class="brand-name">ScamShield <span>AI</span></div>
+        <div class="brand-tagline">THINK BEFORE YOU CLICK</div>
+      </div>
+    </a>
+
+    <nav>
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#scanner" class="nav-link">URL Scanner</a>
+      <a href="#how-it-works" class="nav-link">How it works</a>
+      <a href="#safety" class="nav-link">Safety tips</a>
+    </nav>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>SHIELD ONLINE</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="pulse-dot"></span>
+          YOUR PERSONAL CYBER SAFETY ASSISTANT
+        </div>
+
+        <h1>One click can cost you.<br>
+          <span class="gradient-text">Think before you</span><br>
+          <span class="outline-text">trust a link.</span>
+        </h1>
+
+        <p class="hero-description">
+          Suspicious website? Don't guess. ScamShield AI helps you
+          inspect URLs, understand warning signs, and make safer
+          decisions before sharing your personal information.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#scanner" class="primary-btn">Start URL scan <span>↗</span></a>
+          <a href="#how-it-works" class="secondary-btn">Explore the system</a>
+        </div>
+
+        <div class="trust-row">
+          <span>◈</span> Privacy-conscious
+          <span>◈</span> Clear explanations
+          <span>◈</span> Safety first
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="shield-illustration">
+          <div class="shield-glow"></div>
+          <svg viewBox="0 0 200 230" role="img" aria-label="Cybersecurity shield illustration">
+            <defs>
+              <linearGradient id="shieldGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#35ffe0"/>
+                <stop offset="100%" stop-color="#8a55ff"/>
+              </linearGradient>
+            </defs>
+            <path d="M100 12 L177 42 L169 125 Q153 179 100 213 Q47 179 31 125 L23 42 Z"
+              fill="#07152a" stroke="url(#shieldGradient)" stroke-width="3"/>
+            <path d="M100 28 L161 51 L154 120 Q140 164 100 190 Q60 164 46 120 L39 51 Z"
+              fill="#0a2036" stroke="#1b8d9e" stroke-width="1.5"/>
+            <path d="M100 53 L121 94 L105 94 L105 137 L80 103 L96 103 L96 53 Z"
+              fill="url(#shieldGradient)"/>
+            <circle cx="100" cy="104" r="60" fill="none" stroke="#20e9d2" stroke-opacity=".18"/>
+          </svg>
+          <div class="floating-label label-top">
+            <span class="mini-dot"></span> DIGITAL DEFENSE
+          </div>
+          <div class="floating-label label-bottom">
+            <span class="mini-shield">✓</span>
+            <div><strong>Your safety matters</strong><small>Stay alert. Stay protected.</small></div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <span class="caption-line"></span>
+          <span>INTELLIGENT URL RISK ANALYSIS</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="scanner-section" id="scanner">
+      <div class="section-heading">
+        <div>
+          <div class="section-kicker">01 / SCAN CENTER</div>
+          <h2>Inspect a <span class="gradient-text">suspicious URL.</span></h2>
+          <p>Paste the complete website address below to inspect its structure.</p>
+        </div>
+        <div class="scan-counter"><span class="pulse-dot"></span> READY TO ANALYSE</div>
+      </div>
+
+      <div class="scanner-card">
+        <div class="scanner-topline">
+          <span>◉ SECURE ANALYSIS CONSOLE</span>
+          <span>SCAMSHIELD / V1.0</span>
+        </div>
+
+        <form id="scanForm">
+          <label for="urlInput">WEBSITE ADDRESS</label>
+          <div class="input-row">
+            <span class="link-icon">↗</span>
+            <input id="urlInput" type="text"
+              placeholder="https://example.com"
+              autocomplete="url" spellcheck="false"
+              aria-describedby="inputHint" required>
+            <button type="submit" class="scan-btn" id="scanButton">
+              <span id="buttonText">Analyse URL</span><span> →</span>
+            </button>
+          </div>
+          <div class="input-hint" id="inputHint">
+            <span>ⓘ</span> Enter a URL you want to inspect. Do not open suspicious links to test them.
+          </div>
+        </form>
+
+        <div class="examples">
+          <span>TRY AN EXAMPLE</span>
+          <button type="button" class="example-chip" data-url="https://example.com">example.com</button>
+          <button type="button" class="example-chip" data-url="http://192.168.1.1/login">IP address URL</button>
+          <button type="button" class="example-chip" data-url="http://secure-login-update.example.com/verify">Lookalike-style URL</button>
+        </div>
+
+        <div id="loadingPanel" class="loading-panel" hidden>
+          <div class="loader"></div>
+          <div><strong>Inspecting URL structure...</strong><p>Checking available warning signals.</p></div>
+        </div>
+
+        <section id="results" class="results" aria-live="polite" hidden>
+          <div class="result-header">
+            <div>
+              <div class="section-kicker">ANALYSIS REPORT</div>
+              <h3 id="resultTitle">URL analysis</h3>
+              <p id="resultDescription"></p>
+            </div>
+            <div id="riskBadge" class="risk-badge">ASSESSMENT</div>
+          </div>
+
+          <div class="result-url">
+            <span>INSPECTED ADDRESS</span>
+            <code id="resultUrl"></code>
+          </div>
+
+          <div class="findings-grid">
+            <div class="finding-card">
+              <div class="finding-icon">⌕</div>
+              <h4>URL characteristics</h4>
+              <ul id="findingList"></ul>
+            </div>
+            <div class="finding-card advice-card">
+              <div class="finding-icon">⬡</div>
+              <h4>Recommended action</h4>
+              <p id="safetyAdvice"></p>
+              <p class="small-note">This is a preliminary URL-structure assessment, not a guarantee of website safety.</p>
+            </div>
+          </div>
+
+          <button id="resetButton" type="button" class="secondary-btn reset-btn">Scan another URL ↻</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading centered">
+        <div class="section-kicker">02 / OUR APPROACH</div>
+        <h2>Security made <span class="gradient-text">understandable.</span></h2>
+        <p>Clear steps to help you make informed decisions about suspicious links.</p>
+      </div>
+
+      <div class="steps-grid">
+        <article class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon">↗</div>
+          <h3>Submit a URL</h3>
+          <p>Enter a website address you want to inspect before interacting with it.</p>
+          <div class="card-line"></div>
+        </article>
+        <article class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon">⌘</div>
+          <h3>Inspect signals</h3>
+          <p>Examine available URL characteristics for patterns that may indicate risk.</p>
+          <div class="card-line"></div>
+        </article>
+        <article class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon">⬡</div>
+          <h3>Understand the risk</h3>
+          <p>Review the detected signals and follow practical safety recommendations.</p>
+          <div class="card-line"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="safety-section" id="safety">
+      <div class="safety-panel">
+        <div class="safety-symbol">!</div>
+        <div class="safety-copy">
+          <div class="section-kicker">03 / STAY CYBER SMART</div>
+          <h2>Pause. Verify. <span class="gradient-text">Then click.</span></h2>
+          <p>Never share passwords, OTPs, card details or UPI PINs through a link you don't trust. A professional-looking website can still be fraudulent.</p>
+        </div>
+        <a class="secondary-btn" href="https://www.cybercrime.gov.in/" target="_blank" rel="noopener noreferrer">Cybercrime reporting ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#home" class="brand footer-brand">
+      <div class="brand-icon">⬡</div>
+      <div><div class="brand-name">ScamShield <span>AI</span></div>
+        <div class="brand-tagline">THINK BEFORE YOU CLICK</div></div>
+    </a>
+    <p>Built for safer digital decisions. A risk assessment is not a security guarantee.</p>
+    <span>© 2026 SCAMSHIELD AI</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
